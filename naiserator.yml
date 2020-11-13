@@ -35,6 +35,9 @@ spec:
     enabled: true
   idporten:
     enabled: true
+  env:
+    - name: PORT
+      value: 8080
   ingresses:
   {{#each ingress as |url|}}
      - {{url}}
