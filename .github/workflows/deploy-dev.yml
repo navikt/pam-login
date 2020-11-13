@@ -20,10 +20,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: build and test
-        run: |
-          npm install
-          npm run build
       - name: pre-deploy
         uses: navikt/pam-deploy/actions/pre-deploy@v1
         env:
