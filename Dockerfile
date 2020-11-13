@@ -5,7 +5,6 @@ COPY src ./src
 COPY package.json package-lock.json ./
 
 RUN npm ci
-RUN npm run build
 ENV NODE_ENV production
 RUN npm prune
 
