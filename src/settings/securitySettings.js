@@ -43,7 +43,8 @@ const idPortenStrategy = async () => {
 const setUpSecurity = async (server) => {
     server.use(passport.initialize());
     server.use(passport.session());
-    passport.use('idporten', await idPortenStrategy());
+    const strategy = await idPortenStrategy();
+    passport.use('idporten', strategy);
 }
 
 module.exports = setUpSecurity;

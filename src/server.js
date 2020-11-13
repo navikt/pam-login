@@ -7,10 +7,11 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3030;
 
 const server = express();
 
-setUpSecurity(server);
-
 server.use(healthCheckRoutes);
+
+setUpSecurity(server);
 server.use(loginRoutes);
+
 
 server.listen(PORT, () =>
     console.log(`Started serving on port ${PORT}`)
