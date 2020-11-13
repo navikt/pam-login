@@ -1,0 +1,25 @@
+{
+  "name": "pam-login",
+  "version": "1.0.0",
+  "description": "Login microservice for Arbeidsplassen",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navikt/pam-login.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/navikt/pam-login/issues"
+  },
+  "homepage": "https://github.com/navikt/pam-login#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "openid-client": "^4.2.1",
+    "passport": "^0.4.1"
+  }
+}
