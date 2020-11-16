@@ -1,9 +1,9 @@
 const express = require('express');
 const passport = require('passport');
+const {generators} = require('openid-client');
 const expressSession = require('express-session');
 const idPortenStrategy = require("./settings/idPortenStrategy");
 const healthCheckRoutes = require('./routes/healthCheckRoutes');
-const loginRoutes = require('./routes/loginRoutes');
 const {ensureLoggedIn} = require("connect-ensure-login");
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3030;
@@ -42,7 +42,25 @@ const initializePassport = async () => {
 initializePassport()
     .catch(console.error);
 
-app.use(loginRoutes(passport));
+const createLoginRoutes = () => {
+    const router = express.Router();
+    router.get('/login', passport.authenticate('idporten', {
+        state: generators.state()
+    }));
+    router.get('/logout', (req, res) => {
+        req.logout();
+        res.redirect('https://arbeidsplassen.dev.nav.no');
+    })
+
+    // account for variable redirect
+    router.get('/oauth2/callback', passport.authenticate('idporten', {
+        successRedirect: '/cv',
+        failureRedirect: '/login'
+    }))
+    return router;
+}
+
+app.use(createLoginRoutes());
 
 app.use('/', ensureLoggedIn({redirectTo: '/stillinger'}), (_, res) => res.send('OK'));
 
