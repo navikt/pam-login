@@ -20,7 +20,7 @@ const createClient = (issuer) => new issuer.Client({
 });
 
 const idPortenStrategy = async () => {
-    const issuer = await Issuer.discover(idportenWellKnownUrl);;
+    const issuer = await Issuer.discover(idportenWellKnownUrl);
     const client = createClient(issuer);
     return new Strategy({
         client,
