@@ -24,7 +24,7 @@ const idPortenStrategy = async () => {
     const client = createClient(issuer);
     return new Strategy({
         client,
-        sessionKey: '',
+        sessionKey: '535510n-53cr3t',
         usePKCE: true,
         params: {
             scope: 'openid profile'
@@ -44,7 +44,7 @@ const setUpSecurity = async (server) => {
     server.use(passport.initialize());
     server.use(passport.session());
     const strategy = await idPortenStrategy();
-    passport.use('idporten', strategy);
+    return passport.use('idporten', strategy);
 }
 
 module.exports = setUpSecurity;

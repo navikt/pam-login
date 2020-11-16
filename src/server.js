@@ -22,8 +22,8 @@ server.use(expressSession({
     secret: '535510n-53cr3t'
 }));
 
-setUpSecurity(server);
-server.use(loginRoutes);
+const passport = setUpSecurity(server);
+server.use(loginRoutes(passport));
 
 
 server.listen(PORT, () =>

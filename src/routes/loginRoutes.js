@@ -1,10 +1,9 @@
 const express = require('express');
-const passport = require('passport');
 const {generators} = require('openid-client');
 
 const logOutUrl = process.env.LOGOUT_URL || 'http://localhost:8080/';
 
-const createLoginRoutes = () => {
+const createLoginRoutes = (passport) => {
     const router = express.Router();
     router.get('/login', passport.authenticate('idporten', {
         state: generators.state()
@@ -19,4 +18,4 @@ const createLoginRoutes = () => {
     return router;
 }
 
-module.exports = createLoginRoutes();
+module.exports = createLoginRoutes;
