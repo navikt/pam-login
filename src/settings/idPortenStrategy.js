@@ -1,10 +1,9 @@
-const passport = require('passport');
 const {Issuer, Strategy} = require('openid-client');
 
-const idportenWellKnownUrl = process.env.IDPORTEN_WELL_KNOWN_URL || '';
-const idportenClientId = process.env.IDPORTEN_CLIENT_ID || '';
+const idportenWellKnownUrl = process.env.IDPORTEN_WELL_KNOWN_URL || 'https://some-wellknown-url';
+const idportenClientId = process.env.IDPORTEN_CLIENT_ID || 'some-client-id';
 const idportenClientJwk = process.env.IDPORTEN_CLIENT_JWK || '{}';
-const idportenRedirectUri = process.env.IDPORTEN_REDIRECT_URI || '';
+const idportenRedirectUri = process.env.IDPORTEN_REDIRECT_URI || 'id-porten-redirect';
 const logoutRedirectUri = process.env.LOGOUT_URL || 'http://localhost:8080/stillinger';
 const privateKeyJwt = 'private_key_jtw';
 
@@ -40,11 +39,4 @@ const idPortenStrategy = async () => {
 }
 
 
-const setUpSecurity = async (server) => {
-    server.use(passport.initialize());
-    server.use(passport.session());
-    const strategy = await idPortenStrategy();
-    return passport.use('idporten', strategy);
-}
-
-module.exports = setUpSecurity;
+module.exports = idPortenStrategy;

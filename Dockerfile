@@ -8,4 +8,4 @@ RUN npm ci
 ENV NODE_ENV production
 RUN npm prune
 
-CMD ["node", "./src/server.js"]
+CMD ["node", "./src/app.js"]

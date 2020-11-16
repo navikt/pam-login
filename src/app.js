@@ -1,16 +1,17 @@
 const express = require('express');
+const passport = require('passport');
 const expressSession = require('express-session');
-const setUpSecurity = require('./settings/securitySettings');
+const idPortenStrategy = require("./settings/idPortenStrategy");
 const healthCheckRoutes = require('./routes/healthCheckRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3030;
 
-const server = express();
+const app = express();
 
-server.use(healthCheckRoutes);
+app.use(healthCheckRoutes);
 
-server.use(expressSession({
+app.use(expressSession({
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -22,10 +23,19 @@ server.use(expressSession({
     secret: '535510n-53cr3t'
 }));
 
-const passport = setUpSecurity(server);
-server.use(loginRoutes(passport));
 
+const initializePassport = async () => {
+    app.use(passport.initialize());
+    app.use(passport.session());
+    const strategy = await idPortenStrategy();
+    passport.use('idporten', strategy);
 
-server.listen(PORT, () =>
+    app.use(loginRoutes(passport));
+};
+
+initializePassport()
+    .catch(console.error);
+
+app.listen(PORT, () =>
     console.log(`Started serving on port ${PORT}`)
 );
