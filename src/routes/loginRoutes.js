@@ -8,11 +8,14 @@ const createLoginRoutes = (passport) => {
     router.get('/login', passport.authenticate('idporten', {
         state: generators.state()
     }));
-    router.get('/logout', (req, res) => res.redirect(logOutUrl))
+    router.get('/logout', (req, res) => {
+        req.logout();
+        res.redirect(logOutUrl);
+    })
 
     // account for variable redirect
     router.get('/oauth2/callback', passport.authenticate('idporten', {
-        successRedirect: '/',
+        successRedirect: '/cv',
         failureRedirect: '/login'
     }))
     return router;
