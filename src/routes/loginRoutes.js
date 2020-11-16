@@ -1,8 +1,6 @@
 const express = require('express');
 const {generators} = require('openid-client');
 
-const logOutUrl = process.env.LOGOUT_URL || 'http://localhost:8080/';
-
 const createLoginRoutes = (passport) => {
     const router = express.Router();
     router.get('/login', passport.authenticate('idporten', {
@@ -10,7 +8,7 @@ const createLoginRoutes = (passport) => {
     }));
     router.get('/logout', (req, res) => {
         req.logout();
-        res.redirect(logOutUrl);
+        res.redirect('https://arbeidsplassen.dev.nav.no');
     })
 
     // account for variable redirect

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/navikt/pam-login#readme",
   "dependencies": {
+    "connect-ensure-login": "^0.1.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "openid-client": "^4.2.1",

@@ -4,6 +4,7 @@ const expressSession = require('express-session');
 const idPortenStrategy = require("./settings/idPortenStrategy");
 const healthCheckRoutes = require('./routes/healthCheckRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const {ensureLoggedIn} = require("connect-ensure-login");
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3030;
 
@@ -29,12 +30,21 @@ const initializePassport = async () => {
     app.use(passport.session());
     const strategy = await idPortenStrategy();
     passport.use('idporten', strategy);
+    passport.serializeUser(function (user, done) {
+        done(null, user)
+    })
 
-    app.use(loginRoutes(passport));
+    passport.deserializeUser(function (user, done) {
+        done(null, user)
+    })
 };
 
 initializePassport()
     .catch(console.error);
+
+app.use(loginRoutes(passport));
+
+app.use('/', ensureLoggedIn({redirectTo: '/stillinger'}), (_, res) => res.send('OK'));
 
 app.listen(PORT, () =>
     console.log(`Started serving on port ${PORT}`)
